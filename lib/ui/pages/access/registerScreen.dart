@@ -1,7 +1,8 @@
 // ignore_for_file: avoid_print, nullable_type_in_catch_clause, prefer_const_constructors, unnecessary_new, body_might_complete_normally_nullable, file_names, depend_on_referenced_packages
 
-import 'package:coffeeshop_app/ui/pages/access/userModel.dart';
-import 'package:coffeeshop_app/ui/pages/homepage/homescreen.dart';
+import 'package:coffeeshop_app/main.dart';
+import 'package:coffeeshop_app/ui/model/userModel.dart';
+
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -15,10 +16,16 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
+  // firebase
   final _auth = FirebaseAuth.instance;
+
+  // string for displaying the error Message
   String? errorMessage;
 
+  // our form key
   final _formKey = GlobalKey<FormState>();
+
+  // editing Controller
   final firstNameEditingController = new TextEditingController();
   final secondNameEditingController = new TextEditingController();
   final emailEditingController = new TextEditingController();
@@ -28,31 +35,37 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     final firstNameField = TextFormField(
-        autofocus: false,
-        controller: firstNameEditingController,
-        keyboardType: TextInputType.name,
-        validator: (value) {
-          RegExp regex = new RegExp(r'^.{3,}$');
-          if (value!.isEmpty) {
-            return ("First Name cannot be Empty");
-          }
-          if (!regex.hasMatch(value)) {
-            return ("Enter Valid name(Min. 3 Character)");
-          }
-          return null;
-        },
-        onSaved: (value) {
-          firstNameEditingController.text = value!;
-        },
-        textInputAction: TextInputAction.next,
-        decoration: InputDecoration(
-          prefixIcon: Icon(Icons.account_circle),
-          contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-          hintText: "First Name",
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
-        ));
+      autofocus: false,
+      controller: firstNameEditingController,
+      keyboardType: TextInputType.name,
+      validator: (value) {
+        RegExp regex = new RegExp(r'^.{3,}$');
+        if (value!.isEmpty) {
+          return ("First Name cannot be Empty");
+        }
+        if (!regex.hasMatch(value)) {
+          return ("Enter Valid name(Min. 3 Character)");
+        }
+        return null;
+      },
+      onSaved: (value) {
+        firstNameEditingController.text = value!;
+      },
+      textInputAction: TextInputAction.next,
+      decoration: InputDecoration(
+        prefixIcon: Icon(Icons.account_circle),
+        prefixIconColor: Color(0xff6A412C),
+        contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+        hintText: "First Name",
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.black),
+          borderRadius: BorderRadius.circular(10),
+        ),
+      ),
+    );
 
     final secondNameField = TextFormField(
         autofocus: false,
@@ -70,9 +83,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
         textInputAction: TextInputAction.next,
         decoration: InputDecoration(
           prefixIcon: Icon(Icons.account_circle),
+          prefixIconColor: Color(0xff6A412C),
           contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
           hintText: "Second Name",
           border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.black),
             borderRadius: BorderRadius.circular(10),
           ),
         ));
@@ -93,14 +111,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
           return null;
         },
         onSaved: (value) {
-          firstNameEditingController.text = value!;
+          emailEditingController.text = value!;
         },
         textInputAction: TextInputAction.next,
         decoration: InputDecoration(
           prefixIcon: Icon(Icons.mail),
+          prefixIconColor: Color(0xff6A412C),
           contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
           hintText: "Email",
           border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.black),
             borderRadius: BorderRadius.circular(10),
           ),
         ));
@@ -119,14 +142,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
           }
         },
         onSaved: (value) {
-          firstNameEditingController.text = value!;
+          passwordEditingController.text = value!;
         },
         textInputAction: TextInputAction.next,
         decoration: InputDecoration(
           prefixIcon: Icon(Icons.vpn_key),
+          prefixIconColor: Color(0xff6A412C),
           contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
           hintText: "Password",
           border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.black),
             borderRadius: BorderRadius.circular(10),
           ),
         ));
@@ -136,11 +164,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
         controller: confirmPasswordEditingController,
         obscureText: true,
         validator: (value) {
-          if (confirmPasswordEditingController.text !=
-              passwordEditingController.text) {
-            return "Password don't match";
+          RegExp regex = new RegExp(r'^.{6,}$');
+          if (value!.isEmpty) {
+            return ("Confirm Password is required for login");
           }
-          return null;
+          if (!regex.hasMatch(value)) {
+            return ("Enter Valid Password(Min. 6 Character)");
+          }
         },
         onSaved: (value) {
           confirmPasswordEditingController.text = value!;
@@ -148,9 +178,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
         textInputAction: TextInputAction.done,
         decoration: InputDecoration(
           prefixIcon: Icon(Icons.vpn_key),
+          prefixIconColor: Color(0xff6A412C),
           contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
           hintText: "Confirm Password",
           border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.black),
             borderRadius: BorderRadius.circular(10),
           ),
         ));
@@ -233,6 +268,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         await _auth
             .createUserWithEmailAndPassword(email: email, password: password)
             .then((value) => {postDetailsToFirestore()})
+            // ignore: body_might_complete_normally_catch_error
             .catchError((e) {
           Fluttertoast.showToast(msg: e!.message);
         });
@@ -278,6 +314,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     // writing all the values
     userModel.email = user!.email;
     userModel.uid = user.uid;
+    userModel.password = passwordEditingController.text;
     userModel.firstName = firstNameEditingController.text;
     userModel.secondName = secondNameEditingController.text;
 

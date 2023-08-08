@@ -28,46 +28,45 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
-    double width = MediaQuery.of(context).size.width;
-    return Scaffold(
-      backgroundColor: Color(0xff6A412C),
-      body: Container(
-        alignment: Alignment.center,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Image.asset(
-              "assets/logo.png",
-              height: 200,
-              width: 300,
-            ),
-            SizedBox(
-              height: 50,
-            ),
-            Positioned(
-              bottom: 90,
-              left: 20,
-              child: RichText(
+    return SizedBox(
+      child: Scaffold(
+        backgroundColor: Color(0xff6A412C),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Padding(
+                padding: EdgeInsets.all(10),
+                child: Image(
+                  image: AssetImage('assets/logo.png'),
+                  height: 200,
+                  width: 300,
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              RichText(
                 text: TextSpan(
                     text: "Morning",
                     style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w700,
-                        fontSize: 24),
+                      color: Colors.white,
+                      fontWeight: FontWeight.w700,
+                      fontSize: 24,
+                    ),
                     children: [
                       TextSpan(
-                          text: "COFFEE",
-                          style: TextStyle(
-                              color: Color(0xffC1B38F),
-                              fontWeight: FontWeight.w700,
-                              fontSize: 24))
+                        text: "COFFEE",
+                        style: TextStyle(
+                          color: Color(0xffC1B38F),
+                          fontWeight: FontWeight.w700,
+                          fontSize: 24,
+                        ),
+                      ),
                     ]),
               ),
-            ),
-            CircularProgressIndicator()
-          ],
+            ],
+          ),
         ),
       ),
     );

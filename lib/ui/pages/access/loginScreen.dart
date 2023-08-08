@@ -51,9 +51,14 @@ class _LoginScreenState extends State<LoginScreen> {
       textInputAction: TextInputAction.next,
       decoration: InputDecoration(
         prefixIcon: Icon(Icons.mail),
+        prefixIconColor: Color(0xff6A412C),
         contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
         hintText: "Email",
         border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.black),
           borderRadius: BorderRadius.circular(10),
         ),
       ),
@@ -61,31 +66,36 @@ class _LoginScreenState extends State<LoginScreen> {
 
     //password
     final passwordField = TextFormField(
-        autofocus: false,
-        controller: passwordController,
-        obscureText: true,
-        validator: (value) {
-          RegExp regex = new RegExp(r'^.{6,}$');
-          if (value!.isEmpty) {
-            return ("Password is required for login");
-          }
-          if (!regex.hasMatch(value)) {
-            return ("Enter Valid Password(Min. 6 Character)");
-          }
-        },
-        onSaved: (value) {
-          passwordController.text = value!;
-        },
-        textInputAction: TextInputAction.done,
-        decoration: InputDecoration(
-          prefixIcon: Icon(Icons.vpn_key),
-          contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-          hintText: "Password",
-          //suffixIcon: ,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
-        ));
+      autofocus: false,
+      controller: passwordController,
+      obscureText: true,
+      validator: (value) {
+        RegExp regex = new RegExp(r'^.{6,}$');
+        if (value!.isEmpty) {
+          return ("Password is required for login");
+        }
+        if (!regex.hasMatch(value)) {
+          return ("Enter Valid Password(Min. 6 Character)");
+        }
+      },
+      onSaved: (value) {
+        passwordController.text = value!;
+      },
+      textInputAction: TextInputAction.done,
+      decoration: InputDecoration(
+        prefixIcon: Icon(Icons.vpn_key),
+        prefixIconColor: Color(0xff6A412C),
+        contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+        hintText: "Password",
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.black),
+          borderRadius: BorderRadius.circular(10),
+        ),
+      ),
+    );
 
     final loginButton = Material(
       elevation: 5,

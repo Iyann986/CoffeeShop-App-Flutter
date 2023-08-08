@@ -13,29 +13,29 @@ class BottomNavBar extends StatefulWidget {
 }
 
 class _BottomNavBarState extends State<BottomNavBar> {
-  late String? emailField = "";
+  // late String? emailField = "";
   int _selectedIndex = 0;
 
-  static TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+  List<Widget> _layoutpage = [];
 
-  final _layoutpage = [
-    HomeScreen(),
-    PromoScreen(),
-    AccountScreen(),
-  ];
+  // static TextStyle optionStyle =
+  //     TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
 
-  // List _widgetOptions = [
+  // final _layoutpage = [
   //   HomeScreen(),
-  //   Text(
-  //     "Index 1: Coffee Shop ",
-  //     // style: optionStyle,
-  //   ),
-  //   Text(
-  //     'Index 2: Promo',
-  //     style: optionStyle,
-  //   ),
+  //   PromoScreen(),
+  //   AccountScreen(),
   // ];
+
+  @override
+  void initState() {
+    _layoutpage = [
+      HomeScreen(),
+      PromoScreen(),
+      AccountScreen(),
+    ];
+    super.initState();
+  }
 
   void _onTapItem(int index) {
     setState(() {
@@ -47,11 +47,12 @@ class _BottomNavBarState extends State<BottomNavBar> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xffDDD1B1),
-      body: Center(
-        child: _layoutpage.elementAt(_selectedIndex),
-      ),
-      //_layoutpage.elementAt(_selectedIndex),
+      body: _layoutpage[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        currentIndex: _selectedIndex,
+        selectedItemColor: Color(0xff814932),
+        onTap: _onTapItem,
         backgroundColor: Color(0xffDDD1B1),
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
@@ -67,10 +68,6 @@ class _BottomNavBarState extends State<BottomNavBar> {
               label: 'Account',
               backgroundColor: Colors.black),
         ],
-        type: BottomNavigationBarType.fixed,
-        currentIndex: _selectedIndex,
-        selectedItemColor: Color(0xff814932),
-        onTap: _onTapItem,
       ),
     );
   }

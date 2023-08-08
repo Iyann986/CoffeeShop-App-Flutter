@@ -11,14 +11,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get_storage/get_storage.dart';
 
-// Future<void> main() async {
-//   WidgetsFlutterBinding.ensureInitialized();
-//   // ignore: avoid_single_cascade_in_expression_statements
-//   await Firebase.initializeApp();
-//   .then((value) => print("connected " + value.options.asMap.toString()))
-//   .catchError((e) => print(e.toString()));
-//   runApp(const MyApp());
-// }
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -34,6 +26,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Coffee Shop',
       theme: ThemeData(
         primarySwatch: Colors.blue,
